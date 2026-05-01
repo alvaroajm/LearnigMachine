@@ -12,24 +12,35 @@ Projeto ESPHome para transformar o **ATOM ECHO** (ESP32-PICO-D4, sem PSRAM, sem 
 | LED RGB | WS2812B | GPIO27 |
 | Botão | — | GPIO39 (ativo em LOW) |
 
+## Instância Home Assistant
+
+**URL:** https://myhomeassistants.org  
+**ESPHome Dashboard:** https://myhomeassistants.org/a0d7b954_esphome (via Add-on)
+
+> O dispositivo ESPHome **não usa a URL externa** para comunicação. Ele descobre o HA
+> automaticamente por **mDNS** (`homeassistant.local`) na rede local e se conecta via
+> API encriptada (porta 6053). A URL acima serve apenas para acessar o dashboard via browser.
+
 ## Pré-requisitos no Home Assistant
 
 1. **Add-on ESPHome** instalado e rodando  
 2. **Integração Wyoming** (já inclusa no HA 2023.10+)  
-3. Pipeline de voz configurado em **Configurações → Assistente → Pipelines**  
-   - STT: Whisper (local) ou serviço em nuvem  
-   - TTS: Piper (local) ou serviço em nuvem  
-   - Wake word: **openWakeWord** (roda no servidor HA) ← necessário para este hardware
+3. **Add-on Whisper** (STT local) — recomendado  
+4. **Add-on Piper** (TTS local) — recomendado  
+5. **Add-on openWakeWord** — obrigatório para wake word neste hardware  
+6. Pipeline de voz configurado em **Configurações → Assistente → Pipelines**
 
 ## Configuração rápida
 
 ```bash
-# 1. Clone / abra o projeto no ESPHome Dashboard
-# 2. Copie secrets.yaml.example → secrets.yaml e preencha os valores
-cp secrets.yaml secrets_real.yaml   # renomeie conforme preferir
-# 3. Compile e grave via USB na primeira vez
-esphome run atom-echo.yaml
-# 4. As próximas atualizações podem ser feitas via OTA
+# 1. Acesse o ESPHome Dashboard em https://myhomeassistants.org/a0d7b954_esphome
+# 2. Clique em "+ New Device" → "Open YAML" e cole o conteúdo de atom-echo.yaml
+#    (ou use "Manually" e aponte para este arquivo)
+# 3. Preencha secrets.yaml com suas credenciais (copie de secrets-example.yaml)
+cp esphome/secrets-example.yaml esphome/secrets.yaml
+# 4. Compile e grave via USB na primeira vez:
+esphome run esphome/atom-echo.yaml
+# 5. As próximas atualizações podem ser feitas via OTA pelo dashboard
 ```
 
 ## Modos de operação
